@@ -726,6 +726,7 @@ public class Datacenter extends SimEntity {
 			Host host = getVmAllocationPolicy().getHost(vmId, userId);
 			Vm vm = host.getVm(vmId, userId);
 			CloudletScheduler scheduler = vm.getCloudletScheduler();
+			//this also initializes ResCloudlet. 
 			double estimatedFinishTime = scheduler.cloudletSubmit(cl, fileTransferTime);
 			if(cl.getInternalCloudlet()!=null && cl.isInternalCloudletProcessed==false)
 			{
@@ -819,9 +820,9 @@ public class Datacenter extends SimEntity {
 		boolean status = false;
 		if (eventTime > 0.0) { // if this cloudlet is in the exec queue
 			status = true;
-		//	if (eventTime > CloudSim.clock()) {
+			//if (eventTime > CloudSim.clock()) {
 				schedule(getId(), eventTime, CloudSimTags.VM_DATACENTER_EVENT);
-			//}
+			
 		}
 
 		if (ack) {
@@ -891,6 +892,7 @@ public class Datacenter extends SimEntity {
 		// if some time passed since last processing
 		// R: for term is to allow loop at simulation start. Otherwise, one initial
 		// simulation step is skipped and schedulers are not properly initialized
+		// IF clock() is greater than lastupdaationtime then go inside
 		if (CloudSim.clock() < 0.111 || CloudSim.clock() > getLastProcessTime() + CloudSim.getMinTimeBetweenEvents()) {
 			List<? extends Host> list = getVmAllocationPolicy().getHostList();
 			double smallerTime = Double.MAX_VALUE;
@@ -908,10 +910,13 @@ public class Datacenter extends SimEntity {
 			if (smallerTime < CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01) {
 				smallerTime = CloudSim.clock() + CloudSim.getMinTimeBetweenEvents() + 0.01;
 			}
+			//smallerTime is equal to Double.MAX_VALUE when there is no cloudlets in executionList and hence next finsishing time wont be calculated. 
 			if (smallerTime != Double.MAX_VALUE) {
 				schedule(getId(), (smallerTime - CloudSim.clock()), CloudSimTags.VM_DATACENTER_EVENT);
 			}
+			//update the latest time at which the cloudlets were updated.
 			setLastProcessTime(CloudSim.clock());
+			
 		}
 	}
 
@@ -935,7 +940,6 @@ public class Datacenter extends SimEntity {
 						{
 //							ArrayList<Cloudlet> cloudletList = new ArrayList<Cloudlet>();
 //							cloudletList.add(cl.getParentCloudlet());
-							
 							sendNow(this.getId(),CloudSimTags.CLOUDLET_RESUME,cl.getParentCloudlet());
 //							DatacenterBroker ref = (DatacenterBroker)CloudSim.getEntity(cl.getParentCloudlet().getUserId());
 //							

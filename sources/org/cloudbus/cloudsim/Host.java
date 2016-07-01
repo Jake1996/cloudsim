@@ -85,7 +85,7 @@ public class Host {
 
 	/**
 	 * Requests updating of processing of cloudlets in the VMs running in this host.
-	 * 
+	 * // what time do we expect that the next cloudlet will finish?
 	 * @param currentTime the current time
 	 * @return expected time of completion of the next cloudlet in all VMs in this host.
 	 *         Double.MAX_VALUE if there is no future events expected in this host

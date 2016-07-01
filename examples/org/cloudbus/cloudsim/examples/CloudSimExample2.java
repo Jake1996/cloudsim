@@ -29,7 +29,7 @@ import org.cloudbus.cloudsim.UtilizationModel;
 import org.cloudbus.cloudsim.UtilizationModelFull;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicySimple;
-import org.cloudbus.cloudsim.VmSchedulerSpaceShared;
+import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -93,12 +93,12 @@ public class CloudSimExample2 {
 	            	//create two VMs
 	            	Vm vm1 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
 
-//	            	vmid++;
-//	            	Vm vm2 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
+	            	vmid++;
+	            	Vm vm2 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
 
 	            	//add the VMs to the vmList
 	            	vmlist.add(vm1);
-	            	//vmlist.add(vm2);
+	            	vmlist.add(vm2);
 
 	            	//submit vm list to the broker
 	            	broker.submitVmList(vmlist);
@@ -121,19 +121,10 @@ public class CloudSimExample2 {
 	            	id++;
 	            	Cloudlet cloudlet2 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
 	            	cloudlet2.setUserId(brokerId);
-	            	cloudlet2.setDelay(3000);
-	            	
-	            	id++;
-	            	Cloudlet cloudlet3 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
-	            	cloudlet3.setUserId(brokerId);
-	            	cloudlet3.setDelay(100);
-	            	
-	            	
-	            	
+
 	            	//add the cloudlets to the list
 	            	cloudletList.add(cloudlet1);
 	            	cloudletList.add(cloudlet2);
-	            	cloudletList.add(cloudlet3);
 
 	            	//submit cloudlet list to the broker
 	            	broker.submitCloudletList(cloudletList);
@@ -141,8 +132,8 @@ public class CloudSimExample2 {
 
 	            	//bind the cloudlets to the vms. This way, the broker
 	            	// will submit the bound cloudlets only to the specific VM
-//	            	broker.bindCloudletToVm(cloudlet1.getCloudletId(),vm1.getId());
-//	            	broker.bindCloudletToVm(cloudlet2.getCloudletId(),vm2.getId());
+	            	broker.bindCloudletToVm(cloudlet1.getCloudletId(),vm1.getId());
+	            	broker.bindCloudletToVm(cloudlet2.getCloudletId(),vm2.getId());
 
 	            	// Sixth step: Starts the simulation
 	            	CloudSim.startSimulation();
@@ -192,7 +183,7 @@ public class CloudSimExample2 {
 	    				new BwProvisionerSimple(bw),
 	    				storage,
 	    				peList,
-	    				new VmSchedulerSpaceShared(peList)
+	    				new VmSchedulerTimeShared(peList)
 	    			)
 	    		); // This is our machine
 

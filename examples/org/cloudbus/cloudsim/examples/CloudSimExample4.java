@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.Cloudlet;
+import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
 import org.cloudbus.cloudsim.CloudletSchedulerTimeShared;
 import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.DatacenterBroker;
@@ -71,6 +72,7 @@ public class CloudSimExample4 {
 			Datacenter datacenter0 = createDatacenter("Datacenter_0");
 			@SuppressWarnings("unused")
 			Datacenter datacenter1 = createDatacenter("Datacenter_1");
+			
 
 			//Third step: Create Broker
 			DatacenterBroker broker = createBroker();
@@ -81,7 +83,7 @@ public class CloudSimExample4 {
 
 			//VM description
 			int vmid = 0;
-			int mips = 250;
+			int mips = 2000;
 			long size = 10000; //image size (MB)
 			int ram = 512; //vm memory (MB)
 			long bw = 1000;
@@ -89,10 +91,10 @@ public class CloudSimExample4 {
 			String vmm = "Xen"; //VMM name
 
 			//create two VMs
-			Vm vm1 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
+			Vm vm1 = new Vm(vmid, brokerId, mips, 2 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
 
 			vmid++;
-			Vm vm2 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
+			Vm vm2 = new Vm(vmid, brokerId, mips,2 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
 
 			//add the VMs to the vmList
 			vmlist.add(vm1);
@@ -118,10 +120,22 @@ public class CloudSimExample4 {
 			id++;
 			Cloudlet cloudlet2 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
 			cloudlet2.setUserId(brokerId);
+			
+			id++;
+			Cloudlet cloudlet3 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
+			cloudlet3.setUserId(brokerId);
+			
+			id++;
+			Cloudlet cloudlet4 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
+			cloudlet4.setUserId(brokerId);
+			
 
 			//add the cloudlets to the list
 			cloudletList.add(cloudlet1);
 			cloudletList.add(cloudlet2);
+			cloudletList.add(cloudlet3);
+			cloudletList.add(cloudlet4);
+			
 
 			//submit cloudlet list to the broker
 			broker.submitCloudletList(cloudletList);
@@ -130,7 +144,12 @@ public class CloudSimExample4 {
 			//bind the cloudlets to the vms. This way, the broker
 			// will submit the bound cloudlets only to the specific VM
 			broker.bindCloudletToVm(cloudlet1.getCloudletId(),vm1.getId());
-			broker.bindCloudletToVm(cloudlet2.getCloudletId(),vm2.getId());
+			broker.bindCloudletToVm(cloudlet2.getCloudletId(),vm1.getId());
+			broker.bindCloudletToVm(cloudlet3.getCloudletId(),vm1.getId());
+			broker.bindCloudletToVm(cloudlet4.getCloudletId(),vm1.getId());
+			
+		
+			
 
 			// Sixth step: Starts the simulation
 			CloudSim.startSimulation();
@@ -165,7 +184,10 @@ public class CloudSimExample4 {
 		int mips = 1000;
 
 		// 3. Create PEs and add these into a list.
-		peList.add(new Pe(0, new PeProvisionerSimple(mips))); // need to store Pe id and MIPS Rating
+		peList.add(new Pe(0, new PeProvisionerSimple(mips)));// need to store Pe id and MIPS Rating
+		peList.add(new Pe(1, new PeProvisionerSimple(mips)));
+		/*peList.add(new Pe(2, new PeProvisionerSimple(mips)));
+		peList.add(new Pe(3, new PeProvisionerSimple(mips)));*/
 
 		//4. Create Host with its id and list of PEs and add them to the list of machines
 		int hostId=0;

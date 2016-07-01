@@ -49,6 +49,7 @@ public class CloudSimExampleNew {
 	private static List<Cloudlet> cloudletList;
 	
 	public static double TotalWaitingTime=0;
+	public static double TotalExecutionTime=0;
 	public static int TotalCloudlets=0;
 
 	/** The vmList. */
@@ -64,7 +65,7 @@ public class CloudSimExampleNew {
 		int ram = 512; //vm memory (MB)
 		int mips = 250;
 		long bw = 1000;
-		int pesNumber = 2; //number of cpus
+		int pesNumber = 1; //number of cpus
 		String vmm = "Xen"; //VMM name
 
 		//create VMs
@@ -94,8 +95,7 @@ public class CloudSimExampleNew {
 		Cloudlet[] cloudlet = new Cloudlet[cloudlets];
 
 		for(int i=0;i<cloudlets;i++){
-			cloudlet[i] = new Cloudlet(idShift + i, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
-			cloudlet[i].setDelay(delay);
+			cloudlet[i] = new Cloudlet(idShift + i, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel,delay);
 			// setting the owner of these Cloudlets
 			cloudlet[i].setUserId(userId);
 			list.add(cloudlet[i]);
@@ -176,6 +176,7 @@ public class CloudSimExampleNew {
 
 			Log.printLine("CloudSimExample8 finished!");
 			Log.printLine("Average waiting time is: " +TotalWaitingTime/TotalCloudlets);
+			Log.printLine("Average Execution time is: " +TotalExecutionTime/TotalCloudlets);
 		}
 		catch (Exception e)
 		{
@@ -304,6 +305,7 @@ public class CloudSimExampleNew {
 			
 			cloudlet = list.get(i);
 			TotalWaitingTime=TotalWaitingTime + (cloudlet.getExecStartTime() - cloudlet.getSubmissionTime());
+			TotalExecutionTime += cloudlet.getActualCPUTime();
 			Log.print(indent + cloudlet.getCloudletId() + indent + indent);
 
 			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS){

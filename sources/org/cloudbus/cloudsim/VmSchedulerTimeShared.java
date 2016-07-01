@@ -74,7 +74,8 @@ public class VmSchedulerTimeShared extends VmScheduler {
 	 * @param mipsShareRequested the mips share requested
 	 * @return true, if successful
 	 */
-	protected boolean allocatePesForVm(String vmUid, List<Double> mipsShareRequested) {
+	protected boolean allocatePesForVm(String vmUid, List<Double> mipsShareRequested) 
+	{
 		double totalRequestedMips = 0;
 		double peMips = getPeCapacity();
 		for (Double mips : mipsShareRequested) {

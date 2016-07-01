@@ -96,8 +96,8 @@ public class CloudSimExampleNew1{
 		Cloudlet[] cloudlet = new Cloudlet[cloudlets];
 
 		for(int i=0;i<cloudlets;i++){
-			cloudlet[i] = new Cloudlet(idShift + i, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
-			cloudlet[i].setDelay(delay);			// setting the owner of these Cloudlets
+			cloudlet[i] = new Cloudlet(idShift + i, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel,delay);
+			// setting the owner of these Cloudlets
 			cloudlet[i].setUserId(userId);
 			list.add(cloudlet[i]);
 		}
@@ -146,9 +146,10 @@ public class CloudSimExampleNew1{
 			broker0.submitVmList(vmList);
 
 			broker0.submitCloudletList(cloudletList);
-			broker0.bindCloudletToVm(cloudletList.get(2).getCloudletId(),vmList.get(1).getId());
 
 			TotalCloudlets += cloudletList.size();
+			   broker0.bindCloudletToVm(cloudletList.get(0).getCloudletId(),vmList.get(1).getId());
+
 			
 		   cloudletList=createCloudlet(brokerId0,5,100,3000);
 		   
@@ -161,7 +162,10 @@ public class CloudSimExampleNew1{
 			  
 		   broker0.submitCloudletList(cloudletList);
 		   TotalCloudlets += cloudletList.size();
-		  
+		   
+		   cloudletList=createCloudlet(brokerId0,1,300,5200);
+		   broker0.submitCloudletList(cloudletList);
+		   TotalCloudlets += cloudletList.size();
 		   
 
 			// Fifth step: Starts the simulation

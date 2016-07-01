@@ -8,8 +8,6 @@
 
 package org.cloudbus.cloudsim;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -163,19 +161,6 @@ public class Log {
 	 */
 	public static void enable() {
 		setDisabled(false);
-	}
-	public static void writetoFile12(String str) {
-		
-		 try {
-			FileWriter fileWriter = new FileWriter("F:\\output.csv",true);
-			// Always wrap FileWriter in BufferedWriter.
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			bufferedWriter.append(str);
-			bufferedWriter.newLine();
-  	        bufferedWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

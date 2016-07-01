@@ -13,8 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.cloudbus.cloudsim.Log;
-
 /**
  * This class implements the deferred event queue used by {@link Simulation}. The event queue uses a
  * linked list to store the events.
@@ -41,9 +39,6 @@ public class DeferredQueue {
 	public void addEvent(SimEvent newEvent) {
 		// The event has to be inserted as the last of all events
 		// with the same event_time(). Yes, this matters.
-		Log.writetoFile12("Deferred :," +CloudSim.clock()+" :,"+newEvent.eventTime()+","+CloudSim.getEntityName(newEvent.getSource())+","+
-				CloudSim.getEntityName(newEvent.getDestination())+" ,"+
-						CloudSimTags.getTagName(newEvent.getTag())+" ,"+newEvent.getType());
 		double eventTime = newEvent.eventTime();
 		if (eventTime >= maxTime) {
 			list.add(newEvent);

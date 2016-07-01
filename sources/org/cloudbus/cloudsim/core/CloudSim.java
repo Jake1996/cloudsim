@@ -525,7 +525,7 @@ public class CloudSim {
 			Iterator<SimEvent> fit = future.iterator();
 			queue_empty = false;
 			SimEvent first = fit.next();
-			processEvent(first);
+			processEvent(first);  //adds to the deffered queue
 			future.remove(first);
 
 			fit = future.iterator();
@@ -535,7 +535,7 @@ public class CloudSim {
 			while (trymore) {
 				SimEvent next = fit.next();
 				if (next.eventTime() == first.eventTime()) {
-					processEvent(next);
+					processEvent(next); //adds to the deffered queue
 					toRemove.add(next);
 					trymore = fit.hasNext();
 				} else {

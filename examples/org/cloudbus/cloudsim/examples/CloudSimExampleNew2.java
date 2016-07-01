@@ -70,8 +70,8 @@ public class CloudSimExampleNew2 {
 			//Datacenters are the resource providers in CloudSim. We need at list one of them to run a CloudSim simulation
 			@SuppressWarnings("unused")
 			Datacenter datacenter0 = createDatacenter("Datacenter_0");
-			//@SuppressWarnings("unused")
-			//Datacenter datacenter1 = createDatacenter("Datacenter_1");
+			@SuppressWarnings("unused")
+			Datacenter datacenter1 = createDatacenter("Datacenter_1");
 			
 
 			//Third step: Create Broker
@@ -91,18 +91,14 @@ public class CloudSimExampleNew2 {
 			String vmm = "Xen"; //VMM name
 
 			//create two VMs
-			Vm vm1 = new Vm(vmid, brokerId, mips, 3 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
+			Vm vm1 = new Vm(vmid, brokerId, mips, 2 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
 
 			vmid++;
-			Vm vm2 = new Vm(vmid, brokerId, mips,1 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
-			
-			vmid++;
-			Vm vm3 = new Vm(vmid, brokerId, mips,1 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
+			Vm vm2 = new Vm(vmid, brokerId, mips,2 /*pesnumber*/, ram, bw, size, vmm, new CloudletSchedulerSpaceShared());
 
 			//add the VMs to the vmList
 			vmlist.add(vm1);
 			vmlist.add(vm2);
-			vmlist.add(vm3);
 
 			//submit vm list to the broker
 			broker.submitVmList(vmlist);
@@ -126,11 +122,7 @@ public class CloudSimExampleNew2 {
 			
 			cloudlet1.setInternalCloudlet(inner_cloudlet);
 			
-			id++;
-			Cloudlet inner_cloudlet1 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
-			inner_cloudlet1.setUserId(brokerId);
 
-			inner_cloudlet.setInternalCloudlet(inner_cloudlet1);
 			//add the cloudlets to the list
 			cloudletList.add(cloudlet1);
 
@@ -172,9 +164,6 @@ public class CloudSimExampleNew2 {
 		// 3. Create PEs and add these into a list.
 		peList.add(new Pe(0, new PeProvisionerSimple(mips)));// need to store Pe id and MIPS Rating
 		peList.add(new Pe(1, new PeProvisionerSimple(mips)));
-		peList.add(new Pe(2, new PeProvisionerSimple(mips)));
-		peList.add(new Pe(3, new PeProvisionerSimple(mips)));
-		peList.add(new Pe(4, new PeProvisionerSimple(mips)));
 		/*peList.add(new Pe(2, new PeProvisionerSimple(mips)));
 		peList.add(new Pe(3, new PeProvisionerSimple(mips)));*/
 
@@ -253,7 +242,7 @@ public class CloudSimExampleNew2 {
 		Log.printLine();
 		Log.printLine("========== OUTPUT ==========");
 		Log.printLine("Cloudlet ID" + indent + "STATUS" + indent +
-				"Data center ID" + indent + "VM ID" + indent + "Time" + indent + "Start Time" + indent + "Submission Time" + indent + "Finish Time");
+				"Data center ID" + indent + "VM ID" + indent + "Time" + indent + "Start Time" + indent + "Finish Time");
 
 		DecimalFormat dft = new DecimalFormat("###.##");
 		for (int i = 0; i < size; i++) {
@@ -264,8 +253,8 @@ public class CloudSimExampleNew2 {
 				Log.print("SUCCESS");
 
 				Log.printLine( indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getVmId() +
-						indent + indent + dft.format(cloudlet.getActualCPUTime()) + indent + indent + dft.format(cloudlet.getExecStartTime())+ indent+ indent+indent+ indent+ indent+ cloudlet.getSubmissionTime()
-						+indent + indent + dft.format(cloudlet.getFinishTime()) + indent );
+						indent + indent + dft.format(cloudlet.getActualCPUTime()) + indent + indent + dft.format(cloudlet.getExecStartTime())+
+						indent + indent + dft.format(cloudlet.getFinishTime()));
 			}
 		}
 

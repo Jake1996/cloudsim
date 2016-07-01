@@ -309,7 +309,7 @@ public class CloudletSchedulerSpaceShared extends CloudletScheduler {
 				}
 
 				long size = rcl.getRemainingCloudletLength();
-				size *= rcl.getNumberOfPes();
+				size *= rcl.getNumberOfPes();   //doubtttttttttttttttttttttttt
 				rcl.getCloudlet().setCloudletLength(size);
 
 				getCloudletExecList().add(rcl);
@@ -328,7 +328,7 @@ public class CloudletSchedulerSpaceShared extends CloudletScheduler {
 				capacity /= cpus;
 
 				long remainingLength = rcl.getRemainingCloudletLength();
-				double estimatedFinishTime =  (remainingLength / (capacity * rcl.getNumberOfPes()));
+				double estimatedFinishTime =(remainingLength / (capacity * rcl.getNumberOfPes()));
 
 				return estimatedFinishTime;
 			} else {// no enough free PEs: go to the waiting queue

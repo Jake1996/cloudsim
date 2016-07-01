@@ -611,9 +611,11 @@ public abstract class SimEntity implements Cloneable {
 	protected void sendNow(int entityId, int cloudSimTag, Object data) {
 		send(entityId, 0, cloudSimTag, data);
 	}
+	
 	protected void sendNow(int entityId,double delay, int cloudSimTag, Object data) {
 		send(entityId, delay, cloudSimTag, data);
 	}
+	
 
 	/**
 	 * Sends an event/message to another entity by <tt>delaying</tt> the simulation time from the

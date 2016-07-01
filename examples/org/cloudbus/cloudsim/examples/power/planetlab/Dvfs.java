@@ -39,7 +39,7 @@ public class Dvfs {
 		String vmAllocationPolicy = "dvfs"; // DVFS policy without VM migrations
 		String vmSelectionPolicy = "";
 		String parameter = "";
-		
+
 		new PlanetLabRunner(
 				enableOutput,
 				outputToFile,
