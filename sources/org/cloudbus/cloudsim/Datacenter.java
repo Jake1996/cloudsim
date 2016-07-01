@@ -742,11 +742,13 @@ public class Datacenter extends SimEntity {
 			}
 
 			// if this cloudlet is in the exec queue
-			else if (estimatedFinishTime > 0.0 && !Double.isInfinite(estimatedFinishTime)) {
-				estimatedFinishTime += fileTransferTime;
-				send(getId(), estimatedFinishTime, CloudSimTags.VM_DATACENTER_EVENT);
+			else {
+				
+				if (estimatedFinishTime > 0.0 && !Double.isInfinite(estimatedFinishTime)) {
+					estimatedFinishTime += fileTransferTime;
+					send(getId(), estimatedFinishTime, CloudSimTags.VM_DATACENTER_EVENT);
+				}
 			}
-
 			if (ack) {
 				int[] data = new int[3];
 				data[0] = getId();
@@ -817,9 +819,9 @@ public class Datacenter extends SimEntity {
 		boolean status = false;
 		if (eventTime > 0.0) { // if this cloudlet is in the exec queue
 			status = true;
-			if (eventTime > CloudSim.clock()) {
+		//	if (eventTime > CloudSim.clock()) {
 				schedule(getId(), eventTime, CloudSimTags.VM_DATACENTER_EVENT);
-			}
+			//}
 		}
 
 		if (ack) {
@@ -933,6 +935,7 @@ public class Datacenter extends SimEntity {
 						{
 //							ArrayList<Cloudlet> cloudletList = new ArrayList<Cloudlet>();
 //							cloudletList.add(cl.getParentCloudlet());
+							
 							sendNow(this.getId(),CloudSimTags.CLOUDLET_RESUME,cl.getParentCloudlet());
 //							DatacenterBroker ref = (DatacenterBroker)CloudSim.getEntity(cl.getParentCloudlet().getUserId());
 //							
